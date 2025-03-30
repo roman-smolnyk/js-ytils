@@ -1,4 +1,4 @@
-export class Log {
+class Log {
   static ERROR_LEVEL = 0;
   static WARN_LEVEL = 1;
   static INFO_LEVEL = 2;
