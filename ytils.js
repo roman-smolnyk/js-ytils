@@ -37,3 +37,41 @@ class Log {
     this._stdout(Log.INFO_LEVEL, ...messages);
   };
 }
+
+class Ytils {
+  static sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  static assert = (condition, message = "Assertion failed") => {
+    if (!condition) throw new Error(message);
+  };
+
+  static waitForElement = async (selector, timeout = 5 * 1000) => {
+    return new Promise((resolve) => {
+      const element = document.querySelector(selector);
+      if (element) return resolve(element);
+
+      const observer = new MutationObserver(() => {
+        const el = document.querySelector(selector);
+        if (el) {
+          observer.disconnect();
+          resolve(el);
+        }
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+
+      // Set timeout as fallback
+      setTimeout(() => {
+        observer.disconnect();
+        resolve(null);
+      }, timeout);
+    });
+  };
+}
+
+insertAfter = (newNode, referenceNode) => {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+};
