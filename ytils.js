@@ -1,3 +1,4 @@
+
 class Log {
   static ERROR_LEVEL = 0;
   static WARN_LEVEL = 1;
@@ -8,13 +9,13 @@ class Log {
 
   static _MAP = { 0: "error", 1: "warn", 2: "info", 3: "log", 4: "debug", 5: "trace" };
 
-  constructor(level = Log.INFO_LEVEL) {
+  constructor(level = Log.LOG_LEVEL) {
     this.CURRENT_LEVEL = level;
   }
 
   _stdout = (level, ...messages) => {
     if (level <= this.CURRENT_LEVEL) {
-      console[Log._MAP[this.CURRENT_LEVEL]](...messages);
+      console[Log._MAP[level]](...messages);
     }
   };
 
