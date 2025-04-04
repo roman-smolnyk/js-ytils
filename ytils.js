@@ -5,7 +5,7 @@ class Log {
   static LOG_LEVEL = 3;
   static DEBUG_LEVEL = 4;
   static TRACE_LEVEL = 5;
-  // _MAP[0] num always converts to string
+
   static _MAP = { 0: "error", 1: "warn", 2: "info", 3: "log", 4: "debug", 5: "trace" };
 
   constructor(level = Log.INFO_LEVEL) {
