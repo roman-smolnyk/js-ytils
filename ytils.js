@@ -8,7 +8,7 @@ class Log {
 
   static _MAP = { 0: "error", 1: "warn", 2: "info", 3: "log", 4: "debug", 5: "trace" };
 
-  constructor({ level = Log.LOG_LEVEL, timestamp = false } = {}) {
+  constructor(level = Log.LOG_LEVEL, timestamp = false) {
     this.CURRENT_LEVEL = level;
     this.TIMESTAMP = timestamp;
   }
