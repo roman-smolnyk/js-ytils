@@ -91,4 +91,49 @@ class Ytils {
       }, timeout);
     });
   };
+
+  static redirectThroughGoogle = (url) => {
+    // redirect.me can be used too
+    window.open(`https://www.google.com/url?sa=t&url=${url}`, "_blank");
+  };
+
+  static isIframe = () => {
+    // Checks if current environment is iframe or standalone web page
+    // Can also be checked using document.referrer but be aware that if it was redirected so it is not reliable(except one more redirect e.g. from google)
+    if (window === window.top) {
+      return null;
+    } else {
+      try {
+        const test = window.top.location.href;
+        return { origin: "same" };
+      } catch (e) {
+        return { origin: "cross" };
+      }
+    }
+  };
+
+  static copyToClipboard = async (text) => {
+    try {
+      // New API
+      await navigator.clipboard.writeText(text);
+      console.log("Text copied to clipboard!");
+    } catch (error) {
+      // Old technik
+      console.error("Failed to copy: ", error);
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+
+      // Avoid scrolling to bottom
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "absolute";
+      textarea.style.left = "-9999px";
+
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+
+      console.log("Text copied to clipboard!");
+    }
+  };
 }
