@@ -136,4 +136,76 @@ class Ytils {
       console.log("Text copied to clipboard!");
     }
   };
+
+  static stringToDOM = (htmlString, first = true) => {
+    // const parser = new DOMParser();
+    // const doc = parser.parseFromString(htmlString, "text/html");
+    // return doc.body.children;
+
+    const div = document.createElement("div");
+    div.innerHTML = htmlString;
+
+    if (!div?.firstChild) {
+      throw new Error("stringToDOM incorrect htmlString");
+    }
+
+    if (first === true) {
+      return div.firstChild;
+    } else {
+      return div.children; // HTMLCollection [0]
+    }
+  };
+
+  static objIsEqual = (obj1, obj2) => {
+    return JSON.stringify(obj1) == JSON.stringify(obj2);
+  };
+
+  static selectByText = (selector, text, includes = false) => {
+    let element = null;
+    if (includes === true) {
+      element = Array.from(document.querySelectorAll(selector)).find((el) => el.textContent.includes(text));
+    } else {
+      element = Array.from(document.querySelectorAll(selector)).find((el) => el.textContent.trim() === text);
+    }
+    return element;
+  };
+}
+
+class Sort {
+  static deepSort = (obj) => {
+    // value can be array or obj
+    if (Array.isArray(obj)) {
+      // Recursively sort array elements
+      const sortedArray = obj.map(deepSort);
+
+      // If elements are objects, sort them for consistent output
+      if (sortedArray.every((item) => typeof item === "object" && item !== null && !Array.isArray(item))) {
+        // Try to sort by a common key if possible (like 'id' or 'name')
+        const firstKeys = Object.keys(sortedArray[0]);
+        const sortKey = firstKeys.find(
+          (k) => typeof sortedArray[0][k] === "string" || typeof sortedArray[0][k] === "number"
+        );
+
+        if (sortKey) {
+          sortedArray.sort((a, b) => {
+            if (a[sortKey] < b[sortKey]) return -1;
+            if (a[sortKey] > b[sortKey]) return 1;
+            return 0;
+          });
+        }
+      }
+
+      return sortedArray;
+    } else if (typeof obj === "object" && obj !== null) {
+      // Recursively sort object keys
+      const sortedEntries = Object.entries(obj)
+        .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+        .map(([key, val]) => [key, deepSort(val)]);
+
+      return Object.fromEntries(sortedEntries);
+    }
+
+    // Primitives
+    return obj;
+  };
 }
