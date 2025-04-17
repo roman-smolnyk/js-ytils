@@ -67,20 +67,20 @@ class Ytils {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   };
 
-  static waitForElement = async (selector, timeout = 5 * 1000) => {
+  static waitForElement = async (selector, parent = document, timeout = 5 * 1000) => {
     return new Promise((resolve) => {
-      const element = document.querySelector(selector);
+      const element = parent.querySelector(selector);
       if (element) return resolve(element);
 
       const observer = new MutationObserver(() => {
-        const el = document.querySelector(selector);
+        const el = parent.querySelector(selector);
         if (el) {
           observer.disconnect();
           resolve(el);
         }
       });
 
-      observer.observe(document.body, {
+      observer.observe(parent, {
         childList: true,
         subtree: true,
       });
