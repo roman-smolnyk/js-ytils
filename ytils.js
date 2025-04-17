@@ -120,7 +120,7 @@ const Ytils = (function () {
 
   class X {
     static sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    static wait = Ytils.sleep;
+    static wait = X.sleep;
 
     static assert = (condition, message = "Assertion failed") => {
       if (!condition) throw new Error(message);
