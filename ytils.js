@@ -88,7 +88,7 @@ const Ytils = (function () {
       });
     };
 
-    static selectByText = (selector, text, parent = document, includes = false) => {
+    static selectByText = (selector, text, { parent = document, includes = false } = {}) => {
       let element = null;
       if (includes === true) {
         element = Array.from(parent.querySelectorAll(selector)).find((el) => el.textContent.includes(text));
