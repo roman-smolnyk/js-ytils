@@ -1,5 +1,9 @@
 // Namespace Ytils
 const Ytils = (function () {
+  // biome-ignore format: <explanation>
+  //    Log level   ERROR            WARN             INFO             LOG              DEBUG            TRACE
+  class LL { static E = true; static W = true; static I = true; static L = true; static D = true; static T = true; }
+
   class Log {
     static ERROR_LEVEL = 0;
     static WARN_LEVEL = 1;
@@ -58,9 +62,8 @@ const Ytils = (function () {
   }
 
   class El {
-    static insertAfter = (newNode, referenceNode) => {
-      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    };
+    static insertAfter = (newNode, referenceNode) => referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    static insertBefore = (newNode, referenceNode) => referenceNode.parentNode.insertBefore(newNode, referenceNode);
 
     static waitForElement = async (selector, parent = document, timeout = 5 * 1000) => {
       return new Promise((resolve) => {
@@ -106,21 +109,17 @@ const Ytils = (function () {
       const div = document.createElement("div");
       div.innerHTML = htmlString;
 
-      if (!div?.firstChild) {
-        throw new Error("stringToDOM incorrect htmlString");
-      }
+      if (!div?.firstChild) throw new Error("stringToDOM incorrect htmlString");
 
-      if (first === true) {
-        return div.firstChild;
-      } else {
-        return div.children; // HTMLCollection  || div.children[0]
-      }
+      if (first === true) return div.firstChild;
+      return div.children; // HTMLCollection  || div.children[0]
     };
   }
 
   class X {
     static sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    static wait = X.sleep;
+
+    static randint = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
     static assert = (condition, message = "Assertion failed") => {
       if (!condition) throw new Error(message);
@@ -129,15 +128,13 @@ const Ytils = (function () {
     static isIframe = () => {
       // Checks if current environment is iframe or standalone web page
       // Can also be checked using document.referrer but be aware that if it was redirected so it is not reliable(except one more redirect e.g. from google)
-      if (window === window.top) {
-        return null;
-      } else {
-        try {
-          const test = window.top.location.href;
-          return { origin: "same" };
-        } catch (e) {
-          return { origin: "cross" };
-        }
+      if (window === window.top) return null;
+
+      try {
+        const test = window.top.location.href;
+        return { origin: "same" };
+      } catch (e) {
+        return { origin: "cross" };
       }
     };
 
@@ -167,7 +164,7 @@ const Ytils = (function () {
     };
 
     static objIsEqual = (obj1, obj2) => {
-      return JSON.stringify(obj1) == JSON.stringify(obj2);
+      return JSON.stringify(obj1) === JSON.stringify(obj2);
     };
   }
 
@@ -182,9 +179,7 @@ const Ytils = (function () {
         if (sortedArray.every((item) => typeof item === "object" && item !== null && !Array.isArray(item))) {
           // Try to sort by a common key if possible (like 'id' or 'name')
           const firstKeys = Object.keys(sortedArray[0]);
-          const sortKey = firstKeys.find(
-            (k) => typeof sortedArray[0][k] === "string" || typeof sortedArray[0][k] === "number"
-          );
+          const sortKey = firstKeys.find((k) => typeof sortedArray[0][k] === "string" || typeof sortedArray[0][k] === "number");
 
           if (sortKey) {
             sortedArray.sort((a, b) => {
@@ -196,6 +191,7 @@ const Ytils = (function () {
         }
 
         return sortedArray;
+        // biome-ignore lint/style/noUselessElse: <explanation>
       } else if (typeof obj === "object" && obj !== null) {
         // Recursively sort object keys
         const sortedEntries = Object.entries(obj)
@@ -218,6 +214,7 @@ const Ytils = (function () {
   }
 
   return {
+    LL,
     Log,
     El,
     X,
