@@ -57,7 +57,7 @@ const Ytils = (function () {
     };
     // For cases when you want to mute logs but leave code
     // When using code in console do this `console.placeholder = console.timeStamp` or `console.placeholder = (...m) => {}`
-    placeholder = (...messages) => {};
+    placeholder = (...messages) => { };
     // timeStamp is a strange console method that can be used instead of the placeholder for backward compability
   }
 
@@ -166,6 +166,18 @@ const Ytils = (function () {
     static objIsEqual = (obj1, obj2) => {
       return JSON.stringify(obj1) === JSON.stringify(obj2);
     };
+
+    static setIntervalCount = (callback, interval, count, current = 0) => {
+      if (current >= count) return;
+
+      setTimeout(() => {
+        try {
+          callback();
+        } catch { }
+
+        this.setIntervalCount(callback, interval, count, current + 1);
+      }, interval);
+    }
   }
 
   class Sort {
