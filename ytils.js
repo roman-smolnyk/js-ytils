@@ -167,19 +167,19 @@ const Ytils = (function () {
       return JSON.stringify(obj1) === JSON.stringify(obj2);
     };
 
-    static setIntervalCount = (callback, interval, count, current = 0) => {
-      if (current >= count) return;
+    static setIntervalCount = (callback, interval, count, _current = 0) => {
+      if (_current >= count) return;
 
       setTimeout(() => {
         try {
           callback();
         } catch {}
 
-        this.setIntervalCount(callback, interval, count, current + 1);
+        this.setIntervalCount(callback, interval, count, _current + 1);
       }, interval);
     };
 
-    callTimeout = async (lambda, timeout = 5000) => {
+    static callTimeout = async (lambda, timeout = 5000) => {
       return Promise.race([(async () => await lambda())().catch(() => null), new Promise((resolve) => setTimeout(() => resolve(null), timeout))]);
     };
   }
