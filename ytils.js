@@ -65,8 +65,10 @@ const Ytils = (function () {
     static insertAfter = (newNode, referenceNode) => referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
     static insertBefore = (newNode, referenceNode) => referenceNode.parentNode.insertBefore(newNode, referenceNode);
 
-    static waitForElement = async (selector, parent = document, timeout = 5 * 1000) => {
+    static waitForElement = async (selector, { parent = document, timeout = null } = {}) => {
       return new Promise((resolve) => {
+        let timeoutId = null;
+        
         const element = parent.querySelector(selector);
         if (element) return resolve(element);
 
@@ -74,6 +76,7 @@ const Ytils = (function () {
           const el = parent.querySelector(selector);
           if (el) {
             observer.disconnect();
+            if (timeoutId) clearTimeout(timeoutId);
             resolve(el);
           }
         });
@@ -83,11 +86,13 @@ const Ytils = (function () {
           subtree: true,
         });
 
-        // Set timeout as fallback
-        setTimeout(() => {
-          observer.disconnect();
-          resolve(null);
-        }, timeout);
+
+        if (timeout != null) {
+          timeoutId = setTimeout(() => {
+            observer.disconnect();
+            resolve(null);
+          }, timeout);
+        }
       });
     };
 

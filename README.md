@@ -1,10 +1,10 @@
 # js-ytils
 
 ```
-https://cdn.jsdelivr.net/gh/roman-smolnyk/js-ytils@v0.1.5/ytils.js
+https://cdn.jsdelivr.net/gh/roman-smolnyk/js-ytils@v0.1.6/ytils.js
 ```
 ```
-https://cdn.jsdelivr.net/gh/roman-smolnyk/js-ytils@v0.1.5/ytils.min.js
+https://cdn.jsdelivr.net/gh/roman-smolnyk/js-ytils@v0.1.6/ytils.min.js
 ```
 
 
